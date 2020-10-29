@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperaturas</title>
+</head>
+<body>
+    <h1>Conversión de grados</h1>
+
+    <form action="#" method="post">
+        <label for="gradoCelsius">Grados Celsius:</label>
+            <input type="text" name="gradoCelsius" id="gradoCelsius"> 
+            <input type="button" name="enviar" id="enviar" value="calcular" onclick="convertirAF()" />
+    </form>
+
+    <form action="#" method="post">
+        <label for="gradoFahrenheit">Grados Farenheit:</label>
+            <input type="text" name="gradoFahrenheit" id="gradoFahrenheit"> 
+            <input type="button" name="enviar" id="enviar" value="calcular" onclick="convertirAC()" />
+    </form>
+
+ 
+ 
+ <script type="text/javascript">
+ 
+ function convertirAF(){
+	 var celsius = document.getElementById("gradoCelsius").value;
+	 var fahrenheit=((celsius*9)/5)+32;
+	 
+	 
+	 alert(celsius+"ºC = "+fahrenheit+"ºF");
+ }
+ 
+ function convertirAC(){
+	 var fahrenheit = document.getElementById("gradoFahrenheit").value;
+	 var celsius=((fahrenheit-32)/1.8);
+	 
+	 
+	 alert(fahrenheit +"ºF = "+celsius+"ºC");
+ }
+ 
+ </script>
+    
+</body>
+</html>

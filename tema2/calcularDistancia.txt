@@ -1,0 +1,10 @@
+cambioPos(coord){
+if(posAct==null)
+	porAct=coord;
+else
+	posUlt=posAct;
+	posAct=coord;
+	distancia+=calculaDistancia(posAct, posUlt);
+
+La distancia la voy calculando con la fórmula.
+Voy jugando con la posicion ultima y la actual.

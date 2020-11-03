@@ -1,0 +1,1 @@
+// arrastrar las imágenes con el ratón 

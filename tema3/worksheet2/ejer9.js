@@ -45,3 +45,20 @@ function ejercicio9()
   }
   return combinaciones;
 }
+
+let combinaciones = ejercicio9();
+document.write("<table><tr>");
+
+document.write("<td>Resultado</td>");
+for (let i = 0; i < combinaciones.length; i++) {
+    document.write("<td>" + (i + 1) + "</td>");
+}
+document.write("</tr>");
+
+for (let i = 0; i < combinaciones.length; i++) {
+    document.write("<tr><td>" + (i + 1) + "</td>");
+    for (let j = 0; j < combinaciones.length; j++) {
+        document.write("<td>" + combinaciones[i][j] + "</td>");
+    }
+    document.write("</tr>");
+}

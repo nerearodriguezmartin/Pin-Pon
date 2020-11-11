@@ -2,3 +2,7 @@ body{
 font-family: serif;
 background-color: #ffffff;
 }
+
+#p3, #p4{
+    display:none;
+}

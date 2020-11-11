@@ -21,6 +21,10 @@ function darEstilo(){
     document.getElementById("marco").style.color = "blue";
     document.getElementById("p3").innerHTML = "Este párrafo debe ser solo visible en el tema Normal";
     document.getElementById("p4").innerHTML = "Esto está dentro de un marco";
+    document.getElementById("contenedor").style.borderLeft = "8em solid blue";
+    document.getElementById("contenedor").style.padding = "2em";
+
+
 }
 
 function quitarEstilo(){
@@ -35,6 +39,7 @@ function quitarEstilo(){
     document.getElementById("marco").style.color = "";
     document.getElementById("p3").innerHTML = "";
     document.getElementById("p4").innerHTML = "";
-
+    document.getElementById("contenedor").style.borderLeft = "";
+    document.getElementById("contenedor").style.padding = "";
     
 }

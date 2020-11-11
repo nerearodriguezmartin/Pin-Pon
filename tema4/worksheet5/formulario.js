@@ -52,7 +52,7 @@ function compruebaTel(){
 }
 
 function compruebaMail(){
-    var mail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/; ; 
+    var mail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/ ; 
     var OK = mail.exec(document.getElementById("mail").value);
     if (!OK) {
         document.getElementById("mail").style.backgroundColor = "red";
@@ -62,7 +62,7 @@ function compruebaMail(){
 }
 
 function compruebaUser(){
-    var user = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/; 
+    var user = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,20}$/; 
     var OK = user.exec(document.getElementById("user").value);
     if (!OK) {
         document.getElementById("user").style.backgroundColor = "red";

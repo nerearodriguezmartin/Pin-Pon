@@ -50,16 +50,16 @@ class Booklist {
 
     get numberBooksRead()
     {
-        return this.books.filter( (book)=> book.read).length;
+        return this.booklist.filter( (book)=> book.read).length;
     }
 
     get numberBooksNotReadYet()
     {
-        return this.books.length - this.numberBooksRead;
+        return this.booklist.length - this.numberBooksRead;
     }
 
     get totalBooks(){
-        return this.books.length;
+        return this.booklist.length;
     }
 
     // MÉTODOS
@@ -79,6 +79,13 @@ class Booklist {
         return null;
     }
 
+    borrarLibro(title){
+        this.booklist.forEach((book) => {
+            if(book.title == title){
+                this.booklist.remove(book);
+            }
+        })
+    }
 
 
 }
@@ -119,8 +126,8 @@ function limpiarCampos(){
 
 function pintarListaLibros(lista)
 {
-    document.getElementById("readingList").innerHTML = "";
-    lista.books.forEach( (libro) =>{
+    document.getElementById("readingList").innerHTML = " ";
+    lista.booklist.forEach( (libro) =>{
             let leido;
 
             if (!libro.read)
@@ -132,18 +139,93 @@ function pintarListaLibros(lista)
             }
 
            //Añadir Libro en interfaz
-           bookEntry = `<li class="list-group-item d-flex justify-content-between"><div>
-           <h6 class="my-0"><b>${libro.title}</b></h6> <small class="text-muted" contenteditable="true">${libro.author}&nbsp;</small>
-           </div> <span class="text-muted">${leido}</span>
-           </li>`;
+            bookEntry = document.createElement('li');
+            bookEntry.className = "list-group-item d-flex justify-content-between";
+            bookEntry.id = libro.title;
+
+            var div = document.createElement('div');
+            var h = document.createElement('h6');
+            var b = document.createElement('b');
+            var libro = document.createTextNode(libro.title);
+            b.appendChild(libro);
+            h.className = "my-0";
+            h.appendChild(b);
+            div.appendChild(h);
+            var small = document.createElement('small');
+            small.className = "text-muted";
+            small.contentEditable = "true";
+            var autor = document.createTextNode(libro.author);
+            small.appendChild(autor);
+            div.appendChild(small);
+            bookEntry.appendChild(div);
+            var span = document.createElement('span');
+            span.className = "text-muted";
+            var read = document.createTextNode(leido);
+            span.appendChild(read);
+            bookEntry.appendChild(span);
+
+            var cont = document.createElement('div');
+            cont.style.alignSelf = "right";
+            bookEntry.appendChild(cont);
+
+            //añadir la papelera
+            var papelera = document.createElement('img');
+            papelera.src = "basura.png";
+            papelera.id = "papelera";
+            papelera.style.width = '20px';
+            bookEntry.appendChild(papelera);
+            cont.appendChild(papelera);
+
+
+            //añadir icono editar
+            var editar = document.createElement('img');
+            editar.src = "editar.png";
+            editar.id = "editar"
+            editar.style.width = '20px';
+            editar.style.alignSelf = "right";
+            editar.style.marginLeft = "8px";
+            cont.appendChild(editar);
+
+
+
+            /*bookEntry = `<li class="list-group-item d-flex justify-content-between">
+                            <div>
+                                <h6 class="my-0">
+                                    <b>${libro.title}</b>
+                                </h6> 
+                                <small class="text-muted" contenteditable="true">${libro.author}&nbsp;</small>
+                            </div> 
+                            <span class="text-muted">${leido}</span>
+                        </li>`;
            
-              
-           document.getElementById("readingList").innerHTML += bookEntry;
+
+
+              document.getElementById("readingList").innerHTML = bookEntry;*/
+
+
+            document.getElementById("readingList").appendChild(bookEntry);
            
     })
 
     document.getElementById("booksRead").innerHTML = lista.numberBooksRead + " of "+ lista.totalBooks;
-    
+
+    // borrar un libro
+    document.getElementById("papelera").addEventListener("click", (e) => {
+        var div = e.target.parentElement;
+        var li = div.parentElement;
+        li.remove();
+        /*mybookList.borrarLibro(e.target);*/
+    });
+
+    //editar libro
+    document.getElementById("editar").addEventListener("click", (e) => {
+        var div = e.target.parentElement;
+        var li = div.parentElement;
+        
+        
+
+    });
+
 }
 
 

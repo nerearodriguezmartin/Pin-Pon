@@ -1,0 +1,39 @@
+body{
+    font-family: fantasy;
+}
+
+table{
+    background-color: cornsilk;
+    border: 2px solid;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td{
+  border-right: 2px solid;
+  text-align: center;
+}
+
+button{
+    text-decoration: none;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 20px;
+    color: #ffffff;
+    background-color: #1883ba;
+    border-radius: 6px;
+    border: 2px solid #0016b0;
+  }
+  button{
+    color: #1883ba;
+    background-color: #ffffff;
+  }
+
+  h2{
+    text-align: center;
+    font-size: 4em;
+  }
+
+  h1{
+    text-align: center;
+  }

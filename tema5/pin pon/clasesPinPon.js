@@ -15,11 +15,11 @@ class Juego {
     this.puntosJugador1 = 0;
     this.puntosJugador2= 0;
     this.creaTablaPuntuaciones(puntos);
-    
+    /*this.goal = document.createElement('img');*/
 
   }
 
-  creaTablaPuntuaciones(puntos){
+  creaTablaPuntuaciones(){
     var punto = document.createElement('table');
     var tr1 = document.createElement('tr');
     var tr2 = document.createElement('tr');
@@ -39,7 +39,11 @@ class Juego {
     tr2.appendChild(pp2);
     punto.appendChild(tr1);
     punto.appendChild(tr2);
-    puntos.appendChild(punto);
+    this.puntos.appendChild(punto);
+    
+    /*this.goal.src = "giphy.gif";
+    this.puntos.appendChild(goal);
+    this.goal.style.display = "none";*/
     
   }
 
@@ -96,67 +100,67 @@ class Juego {
       document.body.appendChild(svg); 
   }
 
-  actualizaJugador1(){
+  actualizaJugadores(){
             clearInterval(this.intervalo);
             
             this.actualizaTabla();
-            goal.style.display = "inline-block";
+            /*this.goal.style.display = "inline-block";*/
             if(this.puntosJugador1 < 5 && this.puntosJugador2 < 5){
-              bola = new Bola('bola', 10, 300, 300, 2, 2, 'pink');
-              this.anima(bola);
+              this.bola = new Bola('bola', 10, 300, 300, 2, 2, 'pink');
+              this.anima();
             }
-            else{
+            else if(this.puntosJugador1 >= 5 || this.puntosJugador2 >= 5){
               clearInterval(this.intevalo);
             }
   }
 
 
-  anima(pala1, pala2, bola, svg, puntos){
+  
+
+
+  anima(){
 
       
    this.intervalo =  setInterval(() => 
     {
-        bola.posX += bola.incrX;
-        bola.posY += bola.incrY;
+        this.bola.posX += this.bola.incrX;
+        this.bola.posY += this.bola.incrY;
 
         var ball = document.getElementById('bola');
-        var tamanoSvg = svg.getBoundingClientRect();
-        var goal = document.createElement('img');
-        goal.src = "giphy.gif";
-        puntos.appendChild(goal);
-        goal.style.display = "none";
+        var tamanoSvg = this.svg.getBoundingClientRect();
+        
 
-        ball.setAttribute("cx", bola.posX);
-        ball.setAttribute("cy", bola.posY);
+        ball.setAttribute("cx", this.bola.posX);
+        ball.setAttribute("cy", this.bola.posY);
 
         
 
 
         // choque pala1
-        if ((bola.posX - bola.radio) <= (pala1.xPala + pala1.anchoPala) && pala1.yPala <= (bola.posY - bola.radio)  && (bola.posY - bola.radio) <= (pala1.yPala + pala1.altoPala)){
-          bola.incrX*=-1;
-          bola.incrY*=-1;
+        if ((this.bola.posX - this.bola.radio) <= (this.pala1.xPala + this.pala1.anchoPala) && this.pala1.yPala <= (this.bola.posY - this.bola.radio)  && (this.bola.posY - this.bola.radio) <= (this.pala1.yPala + this.pala1.altoPala)){
+          this.bola.incrX*=-1;
+          this.bola.incrY*=-1;
         }
 
         // choque pala2
-        if ((bola.posX + bola.radio) >= (pala2.xPala) && pala2.yPala <= (bola.posY + bola.radio) && (bola.posY + bola.radio) <= (pala2.yPala + pala2.altoPala)){
-          bola.incrX*=-1;
-          bola.incrY*=-1;
+        if ((this.bola.posX + this.bola.radio) >= (this.pala2.xPala) && this.pala2.yPala <= (this.bola.posY + this.bola.radio) && (this.bola.posY + this.bola.radio) <= (this.pala2.yPala + this.pala2.altoPala)){
+          this.bola.incrX*=-1;
+          this.bola.incrY*=-1;
         }
 
 
         // choque con paredes
-        if((bola.posY + bola.radio)>= tamanoSvg.height ||  (bola.posY - bola.radio)<= 0 )
+        if((this.bola.posY + this.bola.radio)>= tamanoSvg.height ||  (this.bola.posY - this.bola.radio)<= 0 )
             {
-                bola.incrY *=- 1;
+                this.bola.incrY *=- 1;
             }
 
 
             // se sale del tablero por la derecha
-        if ((bola.posX + bola.radio)>= tamanoSvg.width)
+        if ((this.bola.posX + this.bola.radio)>= tamanoSvg.width)
           {
             this.puntosJugador1++;
-            this.actualizaJugador1();
+            this.actualizaJugadores();
             
 
 
@@ -164,26 +168,19 @@ class Juego {
           }
 
           // se sale del tablero por la izquierda
-        if((this.posX - this.radio) <= 0)
+        if((this.bola.posX - this.bola.radio) <= 0)
           {
-            clearInterval(this.intevalo);
             this.puntosJugador2++;
-            this.actualizaTabla();
-            puntos.appendChild(goal);
-            if(this.puntosJugador1 < 5 && this.puntosJugador2 < 5){
-              bola = new Bola('bola', 10, 300, 300, 2, 2, 'pink');
-              
-            }
-            else{
-              clearInterval(this.intevalo);
-            }
+            this.actualizaJugadores();
           }
 
     }, 10);
     
   }
-
 }
+
+
+
 
 
 class Bola{

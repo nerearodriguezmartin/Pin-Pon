@@ -14,52 +14,6 @@ class bola
         this.tagCircle.setAttributeNS(null, "r", this.radio);
         svgContenedor.appendChild(this.tagCircle);
     }
-    
-    mueve(anchoContenedor, altoContenedor)
-    {
-        // Comprobamos ahora si está fuera de los límites
-        // Eje X
-        if (this.position.x-this.radio<=0 || this.position.x+this.radio >= anchoContenedor )
-            this.velocity = new Vector(-this.velocity.x, this.velocity.y);
-        
-        // Eje Y
-        if (this.position.y-this.radio <=0 || this.position.y+this.radio >= altoContenedor )
-          this.velocity = new Vector(this.velocity.x, -this.velocity.y);
-        
-          const newX = Math.max(
-            Math.min(this.position.x + this.velocity.x, anchoContenedor),
-            0
-          );
-      
-          const newY = Math.max(
-            Math.min(this.position.y + this.velocity.y, altoContenedor),
-           0
-          );
-          
-         this.position= new Vector(newX, newY);
-    }
-
-    colisiona(otraBola){
-        const distance = this.position.subtract(otraBola.position).magnitude;
-
-        let posAntigua = this.position;
-
-        if (distance <= this.radio + otraBola.radio) {
-            const v1 = collisionVector(this, otraBola);
-            const v2 = collisionVector(otraBola, this);
-            this.velocity = v1;
-            otraBola.velocity = v2;
-
-            this.position = posAntigua;
-
-        }
-    }
-    
-    dibuja()
-    {
-        this.tagCircle.setAttributeNS(null, "cx", this.position.x);
-        this.tagCircle.setAttributeNS(null, "cy", this.position.y);
-    }
 
     get sphereArea() {
       return 4 * Math.PI * this.radio ** 2;

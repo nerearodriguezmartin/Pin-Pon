@@ -4,19 +4,19 @@ class Juego {
   
   constructor(svg, puntos){
     this.svg = svg;
-    this.bola = new Bola('bola', 10, 300, 300, 2, 2, 'pink');
+    this.bola = new Bola('bola', 10, (Math.floor(Math.random() * (700 - 300)) + 300), (Math.floor(Math.random() * (400 - 200)) + 200), 2, 2, 'pink');
     this.pala1 = new Pala('pala1', 10, 80, 10, 20);
     this.pala2 = new Pala('pala2', 10, 80, 1080, 50);
     this.dibujaPala(this.svg, this.pala1, this.pala2);
     this.dibujaBola(this.bola, this.svg);
-    
+    this.creaGif();
     this.puntos = puntos;
-    this.anima(this.pala1, this.pala2, this.bola, this.svg, this.puntos);
+    
     this.puntosJugador1 = 0;
     this.puntosJugador2= 0;
     this.creaTablaPuntuaciones(puntos);
-    /*this.goal = document.createElement('img');*/
-
+    this.goal = document.createElementNS("http://www.w3.org/2000/svg", "img");
+    this.anima();
   }
 
   creaTablaPuntuaciones(){
@@ -39,12 +39,27 @@ class Juego {
     tr2.appendChild(pp2);
     punto.appendChild(tr1);
     punto.appendChild(tr2);
-    this.puntos.appendChild(punto);
+    this.puntos.appendChild(punto);  
+    this.div = document.createElement('div');
+    this.h2 = document.createElement('h2');
+    this.h2.textContent = "";
+    this.div.style.display = "none";
+    this.div.appendChild(this.h2);
+    document.body.appendChild(this.div);
+
     
-    /*this.goal.src = "giphy.gif";
-    this.puntos.appendChild(goal);
-    this.goal.style.display = "none";*/
-    
+  }
+
+  creaGif(){
+      this.rect = document.createElementNS("http://www.w3.org/2000/svg", "image");
+      this.rect.setAttribute('id', 'gif');
+      this.rect.setAttribute('width', 500);
+      this.rect.setAttribute('height', 500);
+      this.rect.setAttribute('x', 350);
+      this.rect.setAttribute('y', 100);
+      this.rect.setAttribute('href', "giphy.gif");
+      this.rect.style.display = "none";
+      this.svg.appendChild(this.rect);  
   }
 
 
@@ -52,6 +67,7 @@ class Juego {
     document.getElementById("pp1").textContent = this.puntosJugador1;
     document.getElementById("pp2").textContent = this.puntosJugador2;
   }
+
 
 
   dibujaPala(svg, pala1, pala2){
@@ -87,6 +103,59 @@ class Juego {
 
 
 
+
+  /*dibujaPala(){
+    
+    this.pala1.creaPala(this.svg, this.pala1);
+    this.pala2.creaPala(this.svg, this.pala2);
+
+
+    document.addEventListener("keydown", (event) => {
+      var teclaPulsada = event.keyCode;
+      if(teclaPulsada == 65){
+        //this.pala1.mueveArriba = true;
+        this.pala1.muevePalaArriba(pala1);
+        
+      } else {
+        //this.pala1.mueveArriba = false;
+        this.pala1.muevePalaArriba(pala1);
+      }
+
+      if(teclaPulsada == 68){
+        //this.pala1.mueveAbajo = true;
+        this.pala1.muevePalaAbajo(pala1);
+
+      } else{
+        this.pala1.mueveAbajo = false;
+        this.pala1.muevePalaAbajo(pala1);
+      }
+
+      if(teclaPulsada == 40){
+        //this.pala2.mueveArriba = true;
+        this.pala2.muevePalaArriba(pala2);
+
+      }else{
+        this.pala2.mueveArriba = false;
+        this.pala2.muevePalaArriba(pala2);
+      }
+
+      if(teclaPulsada == 38){
+        //this.pala2.mueveAbajo = true;
+        this.pala2.muevePalaAbajo(pala2);
+
+      }else{
+        this.pala2.mueveAbajo = false;
+        this.pala2.muevePalaAbajo(pala2);
+      }
+
+
+      document.getElementById("pala1").setAttribute("y", this.pala1.yPala);
+      document.getElementById("pala2").setAttribute("y", this.pala2.yPala);
+    });
+  }*/
+
+
+
   dibujaBola(bola, svg){
       bola = document.createElementNS("http://www.w3.org/2000/svg", "circle");
       bola.setAttribute('id', this.bola.id);
@@ -102,16 +171,28 @@ class Juego {
 
   actualizaJugadores(){
             clearInterval(this.intervalo);
-            
             this.actualizaTabla();
-            /*this.goal.style.display = "inline-block";*/
-            if(this.puntosJugador1 < 5 && this.puntosJugador2 < 5){
-              this.bola = new Bola('bola', 10, 300, 300, 2, 2, 'pink');
-              this.anima();
-            }
-            else if(this.puntosJugador1 >= 5 || this.puntosJugador2 >= 5){
-              clearInterval(this.intevalo);
-            }
+            this.rect.style.display = "block";
+            setTimeout(() => {
+              this.rect.style.display = "none";
+              if(this.puntosJugador1 < 5 && this.puntosJugador2 < 5){
+                this.bola = new Bola('bola', 10, (Math.floor(Math.random() * (600 - 400)) + 400), (Math.floor(Math.random() * (350 - 200)) + 200), 2, 2, 'pink');
+                this.anima();
+              }
+              else if(this.puntosJugador1 >= 5 || this.puntosJugador2 >= 5){
+                clearInterval(this.intevalo);
+                if (this.puntosJugador1 == 5){
+                  this.h2.textContent = "El ganador es el jugador 1";
+                }
+                else if (this.puntosJugador2 == 5){
+                  this.h2.textContent = "El ganador es el jugador 2";
+                }
+                  this.svg.style.display = "none";
+                  this.div.style.display = "block";
+
+              }
+            }, 5000);
+           
   }
 
 
@@ -119,10 +200,11 @@ class Juego {
 
 
   anima(){
-
+    //this.goal.style.display = "none";
       
    this.intervalo =  setInterval(() => 
     {
+        /*this.rect.style.display = "none";*/
         this.bola.posX += this.bola.incrX;
         this.bola.posY += this.bola.incrY;
 
@@ -139,13 +221,13 @@ class Juego {
         // choque pala1
         if ((this.bola.posX - this.bola.radio) <= (this.pala1.xPala + this.pala1.anchoPala) && this.pala1.yPala <= (this.bola.posY - this.bola.radio)  && (this.bola.posY - this.bola.radio) <= (this.pala1.yPala + this.pala1.altoPala)){
           this.bola.incrX*=-1;
-          this.bola.incrY*=-1;
+          
         }
 
         // choque pala2
         if ((this.bola.posX + this.bola.radio) >= (this.pala2.xPala) && this.pala2.yPala <= (this.bola.posY + this.bola.radio) && (this.bola.posY + this.bola.radio) <= (this.pala2.yPala + this.pala2.altoPala)){
           this.bola.incrX*=-1;
-          this.bola.incrY*=-1;
+         
         }
 
 
@@ -206,6 +288,8 @@ class Pala{
         this.anchoPala = anchoPala;
         this.xPala = xPala;
         this.yPala = yPala;
+        this.mueveArriba = false;
+        this.mueveAbajo = false;
 
     }
     
@@ -222,11 +306,16 @@ class Pala{
     }
 
     muevePalaArriba(pala){
-      pala.yPala += 5;
+      //while (pala.mueveArriba == true){
+        pala.yPala += 5;
+      //}
+      
     }
 
     muevePalaAbajo(pala){
-      pala.yPala-= 5;
+      //while (pala.mueveAbajo == true){
+        pala.yPala -= 5;
+      //}
     }
 
     añadePunto(){

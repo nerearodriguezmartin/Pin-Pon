@@ -57,8 +57,8 @@ function pintarListaLibros(lista)
             var div = document.createElement('div');
             var h = document.createElement('h6');
             var b = document.createElement('b');
-            var libro = document.createTextNode(libro.title);
-            b.appendChild(libro);
+            var lib = document.createTextNode(libro.title);
+            b.appendChild(lib);
             h.className = "my-0";
             h.appendChild(b);
             div.appendChild(h);

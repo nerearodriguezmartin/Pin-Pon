@@ -46,6 +46,11 @@ class Juego {
     this.div.style.display = "none";
     this.div.appendChild(this.h2);
     document.body.appendChild(this.div);
+    this.boton = document.createElement('button');
+    this.boton.textContent = "Juega otra partida";
+    this.boton.id = "juega";
+
+    this.div.appendChild(this.boton);
 
     
   }
@@ -74,21 +79,26 @@ class Juego {
     
     pala1.creaPala(svg, pala1);
     pala2.creaPala(svg, pala2);
+    var tamanoSvg = this.svg.getBoundingClientRect();
 
     document.addEventListener("keydown", (event) => {
       var teclaPulsada = event.keyCode;
+
       if(teclaPulsada == 65){
-        pala1.muevePalaArriba(pala1);
+        if(pala1.yPala > 0)
+          pala1.muevePalaArriba(pala1);
         
       }
 
       if(teclaPulsada == 68){
-        pala1.muevePalaAbajo(pala1);
+        if(pala1.yPala < tamanoSvg.height )
+          pala1.muevePalaAbajo(pala1);
 
       }
 
       if(teclaPulsada == 40){
-        pala2.muevePalaArriba(pala2);
+        if(pala2.yPala > 0)
+          pala2.muevePalaArriba(pala2);
 
       }
 
@@ -101,58 +111,6 @@ class Juego {
     });
   }
 
-
-
-
-  /*dibujaPala(){
-    
-    this.pala1.creaPala(this.svg, this.pala1);
-    this.pala2.creaPala(this.svg, this.pala2);
-
-
-    document.addEventListener("keydown", (event) => {
-      var teclaPulsada = event.keyCode;
-      if(teclaPulsada == 65){
-        //this.pala1.mueveArriba = true;
-        this.pala1.muevePalaArriba(pala1);
-        
-      } else {
-        //this.pala1.mueveArriba = false;
-        this.pala1.muevePalaArriba(pala1);
-      }
-
-      if(teclaPulsada == 68){
-        //this.pala1.mueveAbajo = true;
-        this.pala1.muevePalaAbajo(pala1);
-
-      } else{
-        this.pala1.mueveAbajo = false;
-        this.pala1.muevePalaAbajo(pala1);
-      }
-
-      if(teclaPulsada == 40){
-        //this.pala2.mueveArriba = true;
-        this.pala2.muevePalaArriba(pala2);
-
-      }else{
-        this.pala2.mueveArriba = false;
-        this.pala2.muevePalaArriba(pala2);
-      }
-
-      if(teclaPulsada == 38){
-        //this.pala2.mueveAbajo = true;
-        this.pala2.muevePalaAbajo(pala2);
-
-      }else{
-        this.pala2.mueveAbajo = false;
-        this.pala2.muevePalaAbajo(pala2);
-      }
-
-
-      document.getElementById("pala1").setAttribute("y", this.pala1.yPala);
-      document.getElementById("pala2").setAttribute("y", this.pala2.yPala);
-    });
-  }*/
 
 
 
@@ -190,13 +148,23 @@ class Juego {
                   this.svg.style.display = "none";
                   this.div.style.display = "block";
 
+                  this.boton.addEventListener("click", () => 
+                  {
+                    this.svg.style.display = "block";
+                    this.puntosJugador1 = 0;
+                    this.puntosJugador2 = 0;
+                    this.actualizaTabla();
+                    this.div.style.display = "none";
+                    this.bola = new Bola('bola', 10, (Math.floor(Math.random() * (700 - 300)) + 300), (Math.floor(Math.random() * (400 - 200)) + 200), 2, 2, 'pink');
+                    this.anima();
+                  });
+
               }
             }, 5000);
            
   }
 
 
-  
 
 
   anima(){

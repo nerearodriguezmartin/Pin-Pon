@@ -11,10 +11,11 @@ window.onload = function(){
         let genero = document.getElementById("genre").value;
         let codLibro = codigo;
         codigo ++;
-        mybookList.add(new Book(titulo, autor, genero, codLibro));
+
+        mybookList.add(new Book(titulo, genero, autor, codLibro));
 
         //pasamos el libro a nuestra lista
-        pintarListaLibros(mybookList, codLibro);
+        pintarListaLibros(mybookList);
 
         // cuando pulsamos el boton limpiamos los campos
         limpiarCampos();
@@ -34,14 +35,14 @@ function limpiarCampos(){
 
 }
 
-function pintarListaLibros(lista, codLibro)
+function pintarListaLibros(lista)
 {
     document.getElementById("readingList").innerHTML = " ";
     lista.booklist.forEach( (libro) =>{
             let leido;
 
             if (!libro.read)
-                leido="Not Read";
+              leido="Not Read";
             else
             {
                 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -50,9 +51,8 @@ function pintarListaLibros(lista, codLibro)
 
            //Añadir Libro en interfaz
             let bookEntry = document.createElement('li');
-            bookEntry.idLibro = codLibro;
+            bookEntry.idLibro = libro.codBook;
             bookEntry.className = "list-group-item d-flex justify-content-between";
-            bookEntry.id = libro.title;
 
             var div = document.createElement('div');
             var h = document.createElement('h6');
@@ -65,8 +65,7 @@ function pintarListaLibros(lista, codLibro)
             var small = document.createElement('small');
             small.className = "text-muted";
             small.contentEditable = "true";
-            var autor = document.createTextNode(libro.author);
-            small.appendChild(autor);
+            small.textContent = libro.author;
             div.appendChild(small);
             bookEntry.appendChild(div);
             var span = document.createElement('span');
@@ -82,50 +81,64 @@ function pintarListaLibros(lista, codLibro)
             //añadir la papelera
             var papelera = document.createElement('img');
             papelera.src = "basura.png";
-            papelera.id = "papelera";
+            papelera.id = libro.codBook;
             papelera.style.width = '20px';
             bookEntry.appendChild(papelera);
             cont.appendChild(papelera);
+            papelera.addEventListener("click", (e) => {
+                e.stopPropagation();
+                e.target.parentNode.parentNode.remove();
+                var cod = e.target.parentNode.parentNode.idLibro;
+                lista.removeBook(cod);
+                document.getElementById("booksRead").innerHTML = lista.readedBooks + " of "+ lista.totalBooks;
+                
+            });
 
 
             //añadir icono editar
             var editar = document.createElement('img');
             editar.src = "editar.png";
-            editar.id = "editar"
             editar.style.width = '20px';
             editar.style.alignSelf = "right";
             editar.style.marginLeft = "8px";
+            editar.cod = libro.codBook;
             cont.appendChild(editar);
+            editar.addEventListener("click", (e) => {
+                e.stopPropagation();
+                var cod = e.target.parentNode.parentNode.idLibro;
+                let libroEdit = lista.returnBook(cod);
+                document.getElementById('title').value = libroEdit.title;
+                document.getElementById('author').value = libroEdit.author;
+                document.getElementById('genre').value = libroEdit.genre;
+                document.getElementById("editarBook").style.display = "block";
+                document.getElementById("editarBook").codigo = cod;
+                document.getElementById("editarBook").addEventListener("click", (e) =>
+                {
+                    let cod = e.target.codigo;
+                    let titulo = document.getElementById("title").value;
+                    let autor = document.getElementById("author").value;
+                    let genero = document.getElementById("genre").value;
+                    lista.editBook(titulo, autor, genero, cod);
+                    pintarListaLibros(lista);
+                    document.getElementById("editarBook").style.display = "none";
+                    limpiarCampos();
+                });
 
+            });
 
             document.getElementById("readingList").appendChild(bookEntry);
            
-    })
-
-    document.getElementById("booksRead").innerHTML = lista.numberBooksRead + " of "+ lista.totalBooks;
-
-    // borrar un libro
-    document.getElementById("papelera").addEventListener("click", (e) => {
-        e.stopPropagation();
-        e.target.parentNode.parentNode.remove();
-        var cod = e.target.parentNode.parentNode.idLibro;
-        lista.removeBook(cod);
-        
     });
 
-    //editar libro
-    document.getElementById("editar").addEventListener("click", (e) => {
-        e.stopPropagation();
-        var li = e.target.parentNode.parentNode;
-        var titulo = li.getElementsByTagName('b').value;
-        document.getElementById('title').value = titulo;
-        var autor = li.getElementsByTagName('small').value;
-        document.getElementById('author').value = autor;
+    document.getElementById("booksRead").innerHTML = lista.readedBooks + " of "+ lista.totalBooks;
 
-        
 
-    });
 
 }
+
+        
+
+
+    
 
 

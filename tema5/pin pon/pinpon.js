@@ -3,6 +3,7 @@ window.onload = () =>
 {
        
     document.addEventListener("keypress", empieza);
+    
     function empieza(e){
         document.getElementById("comienza").style.display = "none";
         var svg = document.getElementById('panel');

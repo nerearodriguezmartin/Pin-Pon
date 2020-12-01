@@ -3,10 +3,15 @@ svg{
     background-color: cadetblue;
 }
 
-h2, P{
+h2, p, li{
     font-family: 'Press Start 2P', cursive;
     display: block;
 
+}
+
+li{
+    font-size: small;
+    text-align: left;
 }
 
 h2{

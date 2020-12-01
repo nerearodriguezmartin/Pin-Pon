@@ -85,20 +85,19 @@ class Juego {
       var teclaPulsada = event.keyCode;
 
       if(teclaPulsada == 65){
-        if(pala1.yPala > 0)
-          pala1.muevePalaArriba(pala1);
+        
+          pala1.muevePalaArriba(pala1, tamanoSvg.height);
         
       }
 
       if(teclaPulsada == 68){
-        if(pala1.yPala < tamanoSvg.height )
+        
           pala1.muevePalaAbajo(pala1);
 
       }
 
       if(teclaPulsada == 40){
-        if(pala2.yPala > 0)
-          pala2.muevePalaArriba(pala2);
+          pala2.muevePalaArriba(pala2, tamanoSvg.height);
 
       }
 
@@ -273,17 +272,20 @@ class Pala{
         svg.appendChild( this.rect);
     }
 
-    muevePalaArriba(pala){
-      //while (pala.mueveArriba == true){
-        pala.yPala += 5;
-      //}
+    muevePalaAbajo(pala){
+      if(pala.yPala > 0){
+        pala.yPala -= 10;
+      }
+       
+      
       
     }
 
-    muevePalaAbajo(pala){
-      //while (pala.mueveAbajo == true){
-        pala.yPala -= 5;
-      //}
+    muevePalaArriba(pala, svgHeight){
+
+      if(pala.yPala<svgHeight-pala.altoPala){
+        pala.yPala += 10;
+      }
     }
 
     añadePunto(){
